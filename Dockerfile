@@ -6,6 +6,10 @@ RUN set -ex; \
 	\
 	if command -v a2enmod; then \
 		a2enmod rewrite; \
+		a2enmod ssl; \
+		a2enmod proxy; \
+		a2enmod proxy_balancer; \
+		a2enmod proxy_http; \
 	fi; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -63,6 +67,8 @@ WORKDIR /var/www/html
 #	&& rm drupal.tar.gz \
 #	&& chown -R www-data:www-data sites modules themes
 
-ADD drupal7/* /var/www/html/
+COPY drupal7/ /var/www/astrooda
+
+COPY httpd.conf /etc/apache2/apache2.conf
 
 # vim:set ft=dockerfile:
