@@ -6,4 +6,5 @@ build:
 	docker build -t frontend .
 
 db:
-	mysql -h 127.0.0.1 -P 3306  -u root --password=`cat mysql-password | xargs` < astrooda_drupal7_db_20180323.sql
+	mysql --protocol TCP -h 127.0.0.1 -P 3307  -u root --password=`cat mysql-password | xargs` < astrooda.sql
+	mysql --protocol TCP -h 127.0.0.1 -P 3307  -u root --password=`cat mysql-password | xargs` < astrooda-user.sql

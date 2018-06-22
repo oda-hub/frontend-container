@@ -68,8 +68,29 @@ WORKDIR /var/www/html
 #	&& chown -R www-data:www-data sites modules themes
 
 
+#ENV PATH="$HOME/.config/composer/vendor/bin:$PATH"
+RUN apt-get update
+RUN apt-get install mysql-client -y
 
-COPY drupal7/ /var/www/astrooda
+COPY astrooda_drupal7.tar.gz /astrooda_drupal7.tar.gz
+RUN mkdir -pv /var/www/astrooda &&\
+    tar xvzf  /astrooda_drupal7.tar.gz --wildcards --strip 1 -C /var/www/astrooda drupal7/*
+
+COPY libraries.tar.gz /libraries.tar.gz
+RUN tar xvzf  /libraries.tar.gz -C /var/www/astrooda/sites/all/ && \
+    tar xvzf  /libraries.tar.gz -C /var/www/astrooda/sites/default
+
+
+COPY modules_astrooda /var/www/astrooda/sites/all/modules/astrooda
+
+COPY drupal7_sites_default_settings.php /var/www/astrooda/sites/default/settings.php
+
+RUN ls -l /var/www/astrooda
+RUN ls -l /var/www/astrooda/sites/all/libraries
+RUN ls -l /var/www/astrooda/sites/default/libraries
+RUN ls -l /var/www/astrooda/sites/all/modules/astrooda
+
+#COPY drupal7/ /var/www/astrooda
 
 #RUN apt-get update
 #RUN cd /var/www/astrooda; drush cc all
@@ -80,14 +101,14 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     composer global require drush/drush:7.* 
 
-#ENV PATH="$HOME/.config/composer/vendor/bin:$PATH"
-RUN apt-get update
-RUN apt-get install mysql-client -y
 
-ADD datatables-7.x-1.2.tar.gz /var/www/astrooda/sites/all/modules/
-ADD DataTables-1.9.3.tgz /var/www/astrooda/sites/all/modules/datatables/
-RUN cd /var/www/astrooda/sites/all/modules/datatables/; mv DataTables-1.9.3 dataTables
+
+#ADD datatables-7.x-1.2.tar.gz /var/www/astrooda/sites/all/modules/
+#ADD DataTables-1.9.3.tgz /var/www/astrooda/sites/all/modules/datatables/
+#RUN cd /var/www/astrooda/sites/all/modules/datatables/; mv DataTables-1.9.3 dataTables
 
 #RUN git clone git@gitlab.astro.unige.ch:cdci/astrooda.git drupal7/sites/all/modules/astrooda
 
 # vim:set ft=dockerfile:
+
+RUN chmod -R 777 /var/www/astrooda/sites/default/files 
