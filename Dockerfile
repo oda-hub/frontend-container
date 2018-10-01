@@ -76,6 +76,11 @@ COPY astrooda_drupal7.tar.gz /astrooda_drupal7.tar.gz
 RUN mkdir -pv /var/www/astrooda &&\
     tar xvzf  /astrooda_drupal7.tar.gz --wildcards --strip 1 -C /var/www/astrooda drupal7/*
 
+ADD drupal-7.59.tar.gz /drupal-7.59
+	
+RUN apt-get install -y --no-install-recommends rsync
+RUN rsync -avu /drupal-7.59/drupal-7.59/ /var/www/astrooda/drupal7/
+
 COPY libraries.tar.gz /libraries.tar.gz
 RUN tar xvzf  /libraries.tar.gz -C /var/www/astrooda/sites/all/ && \
     tar xvzf  /libraries.tar.gz -C /var/www/astrooda/sites/default
@@ -97,9 +102,6 @@ RUN ls -l /var/www/astrooda/sites/all/modules/astrooda
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer && \
-    composer global require drush/drush:7.* 
 
 
 
@@ -107,8 +109,18 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 #ADD DataTables-1.9.3.tgz /var/www/astrooda/sites/all/modules/datatables/
 #RUN cd /var/www/astrooda/sites/all/modules/datatables/; mv DataTables-1.9.3 dataTables
 
+COPY drupal7-astrooda /var/www/astrooda/sites/all/modules/astrooda
+RUN ls -l /var/www/astrooda/sites/all/modules/astrooda
+
+#RUN apt-get install git -y
 #RUN git clone git@gitlab.astro.unige.ch:cdci/astrooda.git drupal7/sites/all/modules/astrooda
 
 # vim:set ft=dockerfile:
 
 RUN chmod -R 777 /var/www/astrooda/sites/default/files 
+
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    composer global require drush/drush:7.* 
+
+ADD ctools-7.x-1.14.tar.gz  /var/www/astrooda/sites/all/modules/ctools/
