@@ -1,0 +1,3 @@
+[submodule "drupal7-astrooda"]
+	path = drupal7-astrooda
+	url = git@gitlab.astro.unige.ch:cdci/astrooda.git
