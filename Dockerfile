@@ -79,7 +79,7 @@ RUN mkdir -pv /var/www/astrooda &&\
 ADD drupal-7.59.tar.gz /drupal-7.59
 	
 RUN apt-get install -y --no-install-recommends rsync
-RUN rsync -avu /drupal-7.59/drupal-7.59/ /var/www/astrooda/drupal7/
+RUN rsync -avu /drupal-7.59/drupal-7.59/ /var/www/astrooda/
 
 COPY libraries.tar.gz /libraries.tar.gz
 RUN tar xvzf  /libraries.tar.gz -C /var/www/astrooda/sites/all/ && \
