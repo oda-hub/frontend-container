@@ -68,26 +68,11 @@ WORKDIR /var/www/html
 #	&& chown -R www-data:www-data sites modules themes
 
 
+COPY drupal7-for-astrooda/ /var/www/astrooda
 
-COPY drupal7/ /var/www/astrooda
-
-#RUN apt-get update
-#RUN cd /var/www/astrooda; drush cc all
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer && \
-    composer global require drush/drush:7.* 
-
-#ENV PATH="$HOME/.config/composer/vendor/bin:$PATH"
 RUN apt-get update
 RUN apt-get install mysql-client -y
 
-ADD datatables-7.x-1.2.tar.gz /var/www/astrooda/sites/all/modules/
-ADD DataTables-1.9.3.tgz /var/www/astrooda/sites/all/modules/datatables/
-RUN cd /var/www/astrooda/sites/all/modules/datatables/; mv DataTables-1.9.3 dataTables
-
-#RUN git clone git@gitlab.astro.unige.ch:cdci/astrooda.git drupal7/sites/all/modules/astrooda
-
-# vim:set ft=dockerfile:

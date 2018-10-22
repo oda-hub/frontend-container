@@ -1,6 +1,12 @@
-build:
-	docker build -t frontend .
+image_version := $(shell git branch | awk '{print $$2}')-at-$(shell git describe --abbrev=8 --always --tags)
 
-run: build
-	docker run -p 8083:80 --link mysql:mysql --name frontend frontend
+image_name := cdcihn.isdc.unige.ch:443/frontend:$(strip $(image_version))
+
+build:
+	docker build -t $(image_name) .
+
+push:
+	docker push $(image_name) 
+
+
 
