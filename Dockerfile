@@ -77,3 +77,7 @@ ADD dist/less-7.x-4.0.tar.gz /var/www/astrooda/sites/all/modules/less
 COPY httpd.conf /etc/apache2/apache2.conf
 
 
+#RUN curl -sS https://getcomposer.org/installer | php && \
+#    mv composer.phar /usr/local/bin/composer && \
+#    composer global require drush/drush:7.*
+
