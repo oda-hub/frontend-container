@@ -6,7 +6,7 @@ build:
 	docker build -t $(image_name) .
 
 push: build
-	docker push $(image_name) 
+	docker push $(image_name)  
 
 
 
