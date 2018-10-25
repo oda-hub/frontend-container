@@ -5,7 +5,7 @@ image_name := cdcihn.isdc.unige.ch:443/frontend:$(strip $(image_version))
 build:
 	docker build -t $(image_name) .
 
-push:
+push: build
 	docker push $(image_name) 
 
 

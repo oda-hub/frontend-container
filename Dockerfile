@@ -67,12 +67,12 @@ WORKDIR /var/www/html
 #	&& rm drupal.tar.gz \
 #	&& chown -R www-data:www-data sites modules themes
 
+RUN apt-get update
+RUN apt-get install mysql-client -y
 
 COPY drupal7-for-astrooda/ /var/www/astrooda
 
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
-RUN apt-get update
-RUN apt-get install mysql-client -y
 
