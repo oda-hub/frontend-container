@@ -72,6 +72,7 @@ RUN apt-get install mysql-client -y
 
 COPY drupal7-for-astrooda/ /var/www/astrooda
 
+ADD dist/less-7.x-4.0.tar.gz /var/www/astrooda/sites/all/modules/less
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
