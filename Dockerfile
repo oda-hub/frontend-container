@@ -78,9 +78,9 @@ COPY httpd.conf /etc/apache2/apache2.conf
 
 RUN chown www-data:www-data /var/www/astrooda/sites/default/files
 
-#RUN curl -sS https://getcomposer.org/installer | php && \
-#    mv composer.phar /usr/local/bin/composer && \
-#    composer global require drush/drush:7.*
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    composer global require drush/drush:7.*
 
 RUN apt install ssl-cert
 
