@@ -9,4 +9,5 @@ push: build
 	docker push $(image_name)  
 
 
-
+pull:
+	git submodule foreach  --recursive git pull origin staging-1.2
