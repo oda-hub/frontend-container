@@ -4,6 +4,9 @@ image_version := $(shell bash compute_version.sh)
 
 image_name := odahub/frontend:$(shell git describe --always)
 
+build:
+	docker build -t $(image_name) .
+
 update:
 	# because no to submodules
 	git clone git@gitlab.astro.unige.ch:cdci/frontend/drupal7-for-astrooda.git || true
@@ -15,8 +18,6 @@ update:
 #	git clone git@gitlab.astro.unige.ch:cdci/frontend/drupal7-db-for-astrooda.git drupal7-db-for-astrooda || true
 #	(cd drupal7-db-for-astrooda; git pull)
 
-build:
-	docker build -t $(image_name) .
 
 push: build
 	docker push $(image_name)  
@@ -24,3 +25,6 @@ push: build
 
 pull:
 	git submodule foreach  --recursive git pull origin staging-1.2
+
+run: build
+	docker run -p 8000:80 $(image_name)
