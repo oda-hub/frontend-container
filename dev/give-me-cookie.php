@@ -49,16 +49,19 @@ border: 2px solid white
 <div class="container">
 
 <div class="row">
+</div>
+
+<div class="row">
 
 <div class="col-sm-1"></div>
 <div class="col-sm-16">
 <?php
-echo "your token is (between double quotes, skipping the quotes) \"" . $_COOKIE['_oauth2_proxy'] . "\"";
 
-echo base64_decode($_COOKIE['_oauth2_proxy']);
+decoded = base64_decode($_COOKIE['_oauth2_proxy']['User']);
 
-echo base64_decode($_COOKIE['_oauth2_proxy']['User']);
-echo base64_decode($_COOKIE['_oauth2_proxy']['Email']);
+
+echo 'Dear 'decoded['User'] . 'your token is (between double quotes, skipping the quotes) "' . $_COOKIE['_oauth2_proxy'] . '"';
+echo '<br> Please refer to <a href="https://github.com/cdcihub/oda_api_benchmark/"> CDCI ODA BenchMark Repository</a> for examples;
 
 ?>
 
