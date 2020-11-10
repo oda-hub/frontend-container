@@ -87,4 +87,6 @@ RUN apt install ssl-cert
 COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
 
+ADD dev /var/www/astrooda/dev/
+
 #COPY drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql /drupal7-db-for-astrooda.sql
