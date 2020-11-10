@@ -84,6 +84,7 @@ border: 2px solid white
 <?php
 
 $decoded = json_decode(base64_decode($_COOKIE['_oauth2_proxy']));
+$decoded = base64_decode($_COOKIE['_oauth2_proxy']);
 
 echo 'Dear <i>' . $decoded . '</i> <br>';
 echo 'your temporary token is (between double quotes, skipping the quotes) "<b>' . $_COOKIE['_oauth2_proxy'] . '</b>"';
