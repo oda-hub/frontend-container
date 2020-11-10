@@ -83,9 +83,9 @@ border: 2px solid white
 <div class="col-sm-16">
 <?php
 
-$decoded = json_decode(base64_decode($_COOKIE['_oauth2_proxy']['User']));
+$decoded = json_decode(base64_decode($_COOKIE['_oauth2_proxy']));
 
-echo 'Dear ' . $decoded['User'] . 'your temporary token is (between double quotes, skipping the quotes) "<b>' . $_COOKIE['_oauth2_proxy'] . '</b>"';
+echo 'Dear <i>' . $decoded['User'] . '</i> your temporary token is (between double quotes, skipping the quotes) "<b>' . $_COOKIE['_oauth2_proxy'] . '</b>"';
 echo '<br> Please refer to <a href="https://github.com/cdcihub/oda_api_benchmark/"> CDCI ODA BenchMark Repository</a> for examples';
 
 ?>
