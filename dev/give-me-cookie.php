@@ -60,7 +60,7 @@ border: 2px solid white
 decoded = base64_decode($_COOKIE['_oauth2_proxy']['User']);
 
 
-echo 'Dear 'decoded['User'] . 'your token is (between double quotes, skipping the quotes) "' . $_COOKIE['_oauth2_proxy'] . '"';
+echo 'Dear ' . decoded['User'] . 'your temporary token is (between double quotes, skipping the quotes) "<b>' . $_COOKIE['_oauth2_proxy'] . '</b>"';
 echo '<br> Please refer to <a href="https://github.com/cdcihub/oda_api_benchmark/"> CDCI ODA BenchMark Repository</a> for examples;
 
 ?>
