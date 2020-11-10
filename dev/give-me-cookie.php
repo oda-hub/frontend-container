@@ -53,7 +53,12 @@ border: 2px solid white
 <div class="col-sm-1"></div>
 <div class="col-sm-16">
 <?php
-echo "your token is (between double quotes, skipping the quotes) \"" . $_COOKIE['_oauth2_proxy'] . "\""
+echo "your token is (between double quotes, skipping the quotes) \"" . $_COOKIE['_oauth2_proxy'] . "\"";
+
+echo base64_decode($_COOKIE['_oauth2_proxy']);
+
+echo base64_decode($_COOKIE['_oauth2_proxy']['User']);
+echo base64_decode($_COOKIE['_oauth2_proxy']['Email']);
 
 ?>
 
