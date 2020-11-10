@@ -46,6 +46,32 @@ border: 2px solid white
 
 <body>
 
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+<div class="container">
+<ul class="nav navbar-nav">
+<li class="dropdown">
+ <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Report issue <span class="caret"></span></a>
+ <ul class="dropdown-menu" role="menu">
+    <li><a class="nav-link active" href="https://redmine.isdc.unige.ch/projects/cdci/issues/new?issue[fixed_version_id]=273">CDCI ODA core</a></li>
+    <li><a class="nav-link active" href="https://redmine.isdc.unige.ch/projects/integral-web-analysis/issues/new?issue[fixed_version_id]=273">INTEGRAL</a></li>
+    <li><a class="nav-link active" href="https://redmine.isdc.unige.ch/projects/polar-data-analysis/issues/new?issue[fixed_version_id]=273">POLAR</a></li>
+ </ul>
+</li>
+
+
+<li>
+<a class="nav-link" href="https://gitlab.astro.unige.ch/cdci/cdci-oda-stack/merge_requests/new?utf8=%E2%9C%93&merge_request%5Bsource_project_id%5D=554&merge_request%5Bsource_branch%5D=staging-1.2&merge_request%5Btarget_project_id%5D=554&merge_request%5Btarget_branch%5D=production-1.2">Merge staging-1.2 on production-1.2</a>
+<ul class="dropdown-menu" role="menu">
+<li>
+<a class="nav-link" href="/astrooda/astrooda">ODA</a>
+</li>
+<li class="divider"></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
 <div class="container">
 
 <div class="row">
@@ -57,7 +83,7 @@ border: 2px solid white
 <div class="col-sm-16">
 <?php
 
-$decoded = base64_decode($_COOKIE['_oauth2_proxy']['User']);
+$decoded = json_decode(base64_decode($_COOKIE['_oauth2_proxy']['User']));
 
 echo 'Dear ' . $decoded['User'] . 'your temporary token is (between double quotes, skipping the quotes) "<b>' . $_COOKIE['_oauth2_proxy'] . '</b>"';
 echo '<br> Please refer to <a href="https://github.com/cdcihub/oda_api_benchmark/"> CDCI ODA BenchMark Repository</a> for examples';
