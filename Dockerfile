@@ -67,27 +67,26 @@ WORKDIR /var/www/html
 #	&& rm drupal.tar.gz \
 #	&& chown -R www-data:www-data sites modules themes
 
-
-
-COPY drupal7/ /var/www/astrooda
-
-#RUN apt-get update
-#RUN cd /var/www/astrooda; drush cc all
-
-COPY httpd.conf /etc/apache2/apache2.conf
-
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer && \
-    composer global require drush/drush:7.* 
-
-#ENV PATH="$HOME/.config/composer/vendor/bin:$PATH"
 RUN apt-get update
 RUN apt-get install mysql-client -y
 
-ADD datatables-7.x-1.2.tar.gz /var/www/astrooda/sites/all/modules/
-ADD DataTables-1.9.3.tgz /var/www/astrooda/sites/all/modules/datatables/
-RUN cd /var/www/astrooda/sites/all/modules/datatables/; mv DataTables-1.9.3 dataTables
+COPY drupal7-for-astrooda/ /var/www/astrooda
 
-#RUN git clone git@gitlab.astro.unige.ch:cdci/astrooda.git drupal7/sites/all/modules/astrooda
+#ADD dist/less-7.x-4.0.tar.gz /var/www/astrooda/sites/all/modules/less
 
-# vim:set ft=dockerfile:
+COPY httpd.conf /etc/apache2/apache2.conf
+
+RUN chown www-data:www-data /var/www/astrooda/sites/default/files
+
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    composer global require drush/drush:7.*
+
+RUN apt install ssl-cert
+
+COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
+
+
+ADD dev /var/www/astrooda/dev/
+
+#COPY drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql /drupal7-db-for-astrooda.sql
