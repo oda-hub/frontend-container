@@ -2,7 +2,7 @@
 image_version := $(shell bash make.sh compute-version)
 
 
-image_name := odahub/frontend:$(shell git describe --always)
+image_name := odahub/frontend:$(shell bash make.sh compute-version)
 
 push: build
 	docker push $(image_name)  
