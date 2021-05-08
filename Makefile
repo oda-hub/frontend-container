@@ -1,5 +1,5 @@
 
-image_version := $(shell bash compute_version.sh)
+image_version := $(shell bash make.sh compute-version)
 
 
 image_name := odahub/frontend:$(shell git describe --always)
