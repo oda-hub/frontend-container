@@ -6,13 +6,22 @@ function clone_latest_component() {
 
         echo -e "\033[32mclone_latest_component\033[0m \033[33m$component => $location\033[0m"
 
-        git clone https://github.com/oda-hub/frontend-$component $location || echo "can not clone, exists?"
+        git clone https://github.com/oda-hub/frontend-$component $location || {
+            echo "can not clone, exists?"
+        }
 
 	(
-            cd $location;
-            git checkout master; 
+            cd $location
+            git checkout master
             git pull origin master
-        )
+            git status
+            if [ -z "$(git status --porcelain)" ]; then
+                echo -e "\033[32mdirectory clean!\033[0m"
+            else
+                echo -e "\033[31mdirectory not clean!\033[0m"
+                exit 1
+            fi
+        ) || exit 1
 }
 
 
