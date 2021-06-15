@@ -86,6 +86,8 @@ RUN apt install ssl-cert
 
 COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
+RUN curl -fSL https://ftp.drupal.org/files/projects/webform-6.0.3.tar.gz | tar xzvf - -C /var/www/astrooda/modules
+
 
 ADD dev /var/www/astrooda/dev/
 

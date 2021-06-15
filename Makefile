@@ -7,7 +7,7 @@ image_name := odahub/frontend:$(shell bash make.sh compute-version)
 push: build
 	docker push $(image_name)  
 
-build: update
+build: 
 	docker build -t $(image_name) .
 
 update:
@@ -16,4 +16,8 @@ update:
 
 
 run: build
-	docker run -p 8000:80 $(image_name)
+	docker run \
+		--net host \
+		-v $(shell realpath ../private/drupal7_sites_default_settings.php):/var/www/astrooda/sites/default/settings.php \
+		-p 8020:80 \
+			$(image_name)
