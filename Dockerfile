@@ -59,7 +59,7 @@ RUN { \
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
                 echo '[mail function]' \
-                echo 'SMTP = localhost'; \
+                echo 'SMTP = postfix-relay'; \
                 echo 'smtp_port = 25'; \
                 echo 'sendmail_from = postmaster@in.odahub.io'; \
                 echo 'sendmail_path = /usr/sbin/sendmail -t -i'; \
@@ -103,6 +103,6 @@ ADD dev /var/www/astrooda/dev/
 
 RUN apt-get install sendmail -y
 #RUN apt-get install postfix -y
-#RUN apt-get install netcat -y
+RUN apt-get install netcat -y
 
 #COPY drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql /drupal7-db-for-astrooda.sql
