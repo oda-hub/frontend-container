@@ -92,4 +92,6 @@ RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | ta
 
 ADD dev /var/www/astrooda/dev/
 
+RUN apt-get install sendmail -y
+
 #COPY drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql /drupal7-db-for-astrooda.sql
