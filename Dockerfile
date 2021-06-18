@@ -62,6 +62,7 @@ RUN { \
                 echo 'SMTP = localhost'; \
                 echo 'smtp_port = 25'; \
                 echo 'sendmail_from = postmaster@in.odahub.io'; \
+                echo 'sendmail_path = /usr/sbin/sendmail -t -i'; \
 	} > /usr/local/etc/php/conf.d/mail.ini
 
 WORKDIR /var/www/html
@@ -98,10 +99,9 @@ COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
 #RUN curl -fSL https://ftp.drupal.org/files/projects/webform-6.0.3.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
 
-
 ADD dev /var/www/astrooda/dev/
 
-#echo 'sendmail_path = /usr/sbin/sendmail -t -i' >  /usr/local/etc/php/conf.d/mail.ini
+RUN apt-get install sendmail -y
 #RUN apt-get install postfix -y
 #RUN apt-get install netcat -y
 
