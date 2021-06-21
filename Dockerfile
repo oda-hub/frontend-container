@@ -97,12 +97,17 @@ RUN apt install ssl-cert
 COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
 RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
-#RUN curl -fSL https://ftp.drupal.org/files/projects/webform-6.0.3.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
 
 ADD dev /var/www/astrooda/dev/
 
-RUN apt-get install sendmail -y
 #RUN DEBIAN_FRONTEND=noninteractive apt-get install postfix -y
 RUN apt-get install netcat -y
+RUN apt-get install sendmail -y
 
-#COPY drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql /drupal7-db-for-astrooda.sql
+# add these lines below smart host
+RUN echo "define('SMART_HOST', 'postfix-relay')dnl" >> /etc/mail/sendmail.mc; \
+    echo "define('RELAY_MAILER_ARGS', 'TCP $h 25')dnl" >> /etc/mail/sendmail.mc; \
+    echo "define('ESMTP_MAILER_ARGS', 'TCP $h 25')dnl" >> /etc/mail/sendmail.mc; \
+    make -C /etc/mail
+
+
