@@ -97,6 +97,7 @@ RUN apt install ssl-cert
 COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
 RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
+RUN curl -fSL https://ftp.drupal.org/files/projects/swiftmailer-7.x-1.7.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
 
 ADD dev /var/www/astrooda/dev/
 
