@@ -95,6 +95,6 @@ ADD dev /var/www/astrooda/dev/
 
 ADD drupal7-for-astrooda/sites/default/files/ /frontend-default-files/
 
-RUN cd /var/www/astrooda && composer require "swiftmailer/swiftmailer:^6.0"
+RUN cd /var/www/astrooda && composer require "swiftmailer/swiftmailer:^5.0"
 
 #RUN apt-get install netcat -y
