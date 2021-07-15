@@ -112,3 +112,5 @@ RUN echo "define('SMART_HOST', 'postfix-relay')dnl" >> /etc/mail/sendmail.mc; \
     make -C /etc/mail
 
 ADD drupal7-for-astrooda/sites/default/files/ /frontend-default-files/
+
+RUN composer require "swiftmailer/swiftmailer:^6.0"
