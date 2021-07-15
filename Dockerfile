@@ -55,15 +55,6 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 	
-# set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
-RUN { \
-                echo '[mail function]' \
-                echo 'SMTP = postfix-relay'; \
-                echo 'smtp_port = 25'; \
-                echo 'sendmail_from = postmaster@in.odahub.io'; \
-                echo 'sendmail_path = /usr/sbin/sendmail -t -i'; \
-	} > /usr/local/etc/php/conf.d/mail.ini
 
 WORKDIR /var/www/html
 
@@ -101,16 +92,9 @@ RUN curl -fSL https://ftp.drupal.org/files/projects/swiftmailer-7.x-1.7.tar.gz |
 
 ADD dev /var/www/astrooda/dev/
 
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install postfix -y
-RUN apt-get install netcat -y
-RUN apt-get install sendmail -y
-
-# add these lines below smart host
-RUN echo "define('SMART_HOST', 'postfix-relay')dnl" >> /etc/mail/sendmail.mc; \
-    echo "define('RELAY_MAILER_ARGS', 'TCP $h 25')dnl" >> /etc/mail/sendmail.mc; \
-    echo "define('ESMTP_MAILER_ARGS', 'TCP $h 25')dnl" >> /etc/mail/sendmail.mc; \
-    make -C /etc/mail
 
 ADD drupal7-for-astrooda/sites/default/files/ /frontend-default-files/
 
 RUN cd /var/www/astrooda && composer require "swiftmailer/swiftmailer:^6.0"
+
+#RUN apt-get install netcat -y
