@@ -12,7 +12,7 @@ build:
 
 update:
 	# because no to submodules
-	bash make.sh clone_all_latest
+	bash make.sh clone_all $(VERSION)
 
 
 #		--net host 

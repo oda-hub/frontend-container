@@ -1,10 +1,11 @@
 #!/bin/bash
 
-function clone_latest_component() {
+function clone_component() {
         component=${1:?}
         location=${2:?}
+        version=${3:?}
 
-        echo -e "\033[32mclone_latest_component\033[0m \033[33m$component => $location\033[0m"
+        echo -e "\033[32mclone_component\033[0m \033[33m$component => $location\033[0m"
 
         git clone https://github.com/oda-hub/frontend-$component $location || {
             echo "can not clone, exists?"
@@ -12,8 +13,16 @@ function clone_latest_component() {
 
 	(
             cd $location
-            git checkout master
-            git pull origin master
+
+            if [ $version == "latest" ]; then
+                git checkout master
+                git pull origin master
+            else
+                git fetch --tags origin 
+                git checkout $version
+            fi
+
+
             git status
             if [ -z "$(git status --porcelain)" ]; then
                 echo -e "\033[32mdirectory clean!\033[0m"
@@ -25,11 +34,13 @@ function clone_latest_component() {
 }
 
 
-function clone_all_latest() {
+function clone_all() {
+        version=${1:?}
+
         #  this is better than a loop!
-        clone_latest_component drupal7-for-astrooda drupal7-for-astrooda
-        clone_latest_component bootstrap_astrooda drupal7-for-astrooda/sites/all/themes/bootstrap_astrooda
-        clone_latest_component astrooda drupal7-for-astrooda/sites/all/modules/astrooda
+        clone_component drupal7-for-astrooda drupal7-for-astrooda $version
+        clone_component bootstrap_astrooda drupal7-for-astrooda/sites/all/themes/bootstrap_astrooda $version
+        clone_component astrooda drupal7-for-astrooda/sites/all/modules/astrooda $version
         #clone_latest_component drupal7-db-for-astrooda drupal7-db-for-astrooda # i really hope none of the data there is private
 
 
