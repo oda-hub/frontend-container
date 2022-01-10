@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 function clone_latest_component() {
         component=${1:?}
         location=${2:?}
