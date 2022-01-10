@@ -77,7 +77,8 @@ COPY drupal7-for-astrooda/ /var/www/astrooda
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
-RUN chown www-data:www-data /var/www/astrooda/sites/default/files
+RUN mkdir -pv /var/www/astrooda/sites/default/files && \
+    chown www-data:www-data /var/www/astrooda/sites/default/files
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
