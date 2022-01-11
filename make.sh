@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -ex
 
 function clone_latest_component() {
         component=${1:?}
