@@ -1,14 +1,10 @@
 
-image_version := $(shell bash make.sh compute-version)
-
-
-image_name := odahub/frontend:$(shell bash make.sh compute-version)
-
 push: build
-	docker push $(image_name)  
+	docker push odahub/frontend:$(shell bash make.sh compute-version)
 
-build: 
-	docker build -t $(image_name) .
+build: update 
+	
+	docker build -t odahub/frontend:$(shell bash make.sh compute-version) .
 
 update:
 	# because no to submodules

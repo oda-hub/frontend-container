@@ -38,7 +38,7 @@ function clone_all_latest() {
         mkdir -pv  drupal7-for-astrooda/sites/all/modules/jwt_link/JWT/Authentication 
 
         curl -L https://github.com/firebase/php-jwt/archive/refs/tags/v5.2.1.tar.gz | \
-          tar xvzf - php-jwt-5.2.1/src/JWT.php -O >  \
+          tar xzf - php-jwt-5.2.1/src/JWT.php -O >  \
           drupal7-for-astrooda/sites/all/modules/jwt_link/JWT/Authentication/JWT.php 
 }
 
