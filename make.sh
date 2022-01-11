@@ -47,7 +47,8 @@ function compute-version() {
     for d in drupal7-for-astrooda/sites/all/modules/astrooda drupal7-for-astrooda drupal7-for-astrooda/sites/all/themes/bootstrap_astrooda .; do (
         dn=$(basename $(realpath $d))
         cd $d
-        git branch | awk 'NF>1 {printf "'$dn':\n branch: "$2"\n commit: "}'
+        url=$(git remote get-url origin | xargs)
+        git branch | awk 'NF>1 {printf "'$dn':\n url: '$url'\n branch: "$2"\n commit: "}'
         git describe --abbrev=8 --always --tags
     ) done > version.yaml
 
