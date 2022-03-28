@@ -71,14 +71,14 @@ WORKDIR /var/www/html
 RUN apt-get update
 RUN apt-get install mysql-client -y
 
-COPY drupal7-for-astrooda/ /var/www/astrooda
+COPY mmoda-frontend-drupal /var/www/mmoda
 
-#ADD dist/less-7.x-4.0.tar.gz /var/www/astrooda/sites/all/modules/less
+#ADD dist/less-7.x-4.0.tar.gz /var/www/mmoda/sites/all/modules/less
 
 COPY httpd.conf /etc/apache2/apache2.conf
 
-RUN mkdir -pv /var/www/astrooda/sites/default/files && \
-    chown www-data:www-data /var/www/astrooda/sites/default/files
+RUN mkdir -pv /var/www/mmoda/sites/default/files && \
+    chown www-data:www-data /var/www/mmoda/sites/default/files
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
@@ -88,14 +88,14 @@ RUN apt install ssl-cert
 
 COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
-RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
-RUN curl -fSL https://ftp.drupal.org/files/projects/swiftmailer-7.x-1.7.tar.gz | tar xzvf - -C /var/www/astrooda/sites/all/modules
+RUN curl -fSL https://ftp.drupal.org/files/projects/webform-7.x-4.18.tar.gz | tar xzvf - -C /var/www/mmoda/sites/all/modules
+RUN curl -fSL https://ftp.drupal.org/files/projects/swiftmailer-7.x-1.7.tar.gz | tar xzvf - -C /var/www/mmoda/sites/all/modules
 
-ADD dev /var/www/astrooda/dev/
+ADD dev /var/www/mmoda/dev/
 
 
-ADD drupal7-for-astrooda/sites/default/files/ /frontend-default-files/
+ADD mmoda-frontend-drupal/sites/default/files/ /frontend-default-files/
 
-RUN cd /var/www/astrooda && composer require "swiftmailer/swiftmailer:^5.0"
+RUN cd /var/www/mmoda && composer require "swiftmailer/swiftmailer:^5.0"
 
 #RUN apt-get install netcat -y
