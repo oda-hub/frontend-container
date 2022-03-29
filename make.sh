@@ -8,7 +8,7 @@ function clone_latest_component() {
 
         echo -e "\033[32mclone_latest_component\033[0m \033[33m$component => $location\033[0m"
 
-        git clone https://github.com/oda-hub/frontend-$component $location || {
+        git clone https://github.com/oda-hub/mmoda-frontend-$component $location || {
             echo "can not clone, exists?"
         }
 
@@ -29,22 +29,21 @@ function clone_latest_component() {
 
 function clone_all_latest() {
         #  this is better than a loop!
-        clone_latest_component drupal7-for-astrooda drupal7-for-astrooda
-        clone_latest_component bootstrap_astrooda drupal7-for-astrooda/sites/all/themes/bootstrap_astrooda
-        clone_latest_component astrooda drupal7-for-astrooda/sites/all/modules/astrooda
-        #clone_latest_component drupal7-db-for-astrooda drupal7-db-for-astrooda # i really hope none of the data there is private
+        clone_latest_component drupal mmoda-frontend-drupal
+        clone_latest_component theme mmoda-frontend-drupal/sites/all/themes/bootstrap_mmoda
+        clone_latest_component module mmoda-frontend-drupal/sites/all/modules/mmoda
+        #clone_latest_component db mmoda-frontend-db # i really hope none of the data there is private
 
-
-        mkdir -pv  drupal7-for-astrooda/sites/all/modules/jwt_link/JWT/Authentication 
+        mkdir -pv  mmoda-frontend-drupal/sites/all/modules/jwt_link/JWT/Authentication 
 
         curl -L https://github.com/firebase/php-jwt/archive/refs/tags/v5.2.1.tar.gz | \
           tar xzf - php-jwt-5.2.1/src/JWT.php -O >  \
-          drupal7-for-astrooda/sites/all/modules/jwt_link/JWT/Authentication/JWT.php 
+          mmoda-frontend-drupal/sites/all/modules/jwt_link/JWT/Authentication/JWT.php 
 }
 
 
 function compute-version() {
-    for d in drupal7-for-astrooda/sites/all/modules/astrooda drupal7-for-astrooda drupal7-for-astrooda/sites/all/themes/bootstrap_astrooda .; do (
+    for d in mmoda-frontend-drupal/sites/all/modules/mmoda mmoda-frontend-drupal mmoda-frontend-drupal/sites/all/themes/bootstrap_mmoda .; do (
         dn=$(basename $(realpath $d))
         cd $d
         url=$(git remote get-url origin | xargs)

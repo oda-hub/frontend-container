@@ -63,7 +63,7 @@ border: 2px solid white
 <a class="nav-link" href="https://gitlab.astro.unige.ch/cdci/cdci-oda-stack/merge_requests/new?utf8=%E2%9C%93&merge_request%5Bsource_project_id%5D=554&merge_request%5Bsource_branch%5D=staging-1.2&merge_request%5Btarget_project_id%5D=554&merge_request%5Btarget_branch%5D=production-1.2">Merge staging-1.2 on production-1.2</a>
 <ul class="dropdown-menu" role="menu">
 <li>
-<a class="nav-link" href="/astrooda/astrooda">ODA</a>
+<a class="nav-link" href="/mmoda/mmoda">ODA</a>
 </li>
 <li class="divider"></li>
 </ul>
