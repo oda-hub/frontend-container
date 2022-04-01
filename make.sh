@@ -31,6 +31,7 @@ function clone_all_latest() {
         #  this is better than a loop!
         clone_latest_component drupal mmoda-frontend-drupal
         clone_latest_component theme mmoda-frontend-drupal/sites/all/themes/bootstrap_mmoda
+        clone_latest_component theme mmoda-frontend-drupal/sites/all/themes/bootstrap_astrooda # temporary, to check!
         clone_latest_component module mmoda-frontend-drupal/sites/all/modules/mmoda
         #clone_latest_component db mmoda-frontend-db # i really hope none of the data there is private
 
