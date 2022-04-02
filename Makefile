@@ -2,7 +2,7 @@
 push: build
 	docker push odahub/frontend:$(shell bash make.sh compute-version)
 
-build: update 
+build: #update 
 	
 	docker build -t odahub/frontend:$(shell bash make.sh compute-version) .
 
