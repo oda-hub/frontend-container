@@ -15,7 +15,7 @@ update:
 run: build
 	docker rm -f oda-frontend || true
 	docker run \
-		-v $(shell realpath private/drupal7_sites_default_settings.php):/var/www/astrooda/sites/default/settings.php \
+		-v $(shell realpath private/drupal7_sites_default_settings.php):/var/www/mmoda/sites/default/settings.php \
 		-p 8090:80 \
 		-p 8093:443 \
 		--name oda-frontend \
@@ -32,13 +32,13 @@ local-net:
 	docker network create oda-net
 
 local-db:
-	cat ../drupal7-db-for-astrooda/drupal7-db-for-astrooda.sql | docker exec -i oda-mysql mysql astrooda --password=$(ODA_DB_ROOT_PASSWORD)
+	cat ../mmoda-frontend-db/mmoda.sql | docker exec -i oda-mysql mysql mmoda --password=$(ODA_DB_ROOT_PASSWORD)
 
 local-db-user:
-	cat ../private/astrooda-user.sql | docker exec -i oda-mysql mysql astrooda --password=$(ODA_DB_ROOT_PASSWORD)
+	cat ../private/mmoda-user.sql | docker exec -i oda-mysql mysql mmoda --password=$(ODA_DB_ROOT_PASSWORD)
 
 local-drupal-admin:
-	docker exec oda-frontend bash -c 'cd /var/www/astrooda; ~/.composer/vendor/bin/drush upwd --password="'$(cat private/drupal-admin)'" sitamin'
+	docker exec oda-frontend bash -c 'cd /var/www/mmoda; ~/.composer/vendor/bin/drush upwd --password="'$(shell cat private/drupal-admin)'" admin'
 
 local-drush-cc:
-	docker exec oda-frontend bash -c 'cd /var/www/astrooda; ~/.composer/vendor/bin/drush cc all'
+	docker exec oda-frontend bash -c 'cd /var/www/mmoda; ~/.composer/vendor/bin/drush cc all'
