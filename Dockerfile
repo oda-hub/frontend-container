@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.4.28-apache
+FROM php:7.3.33-apache
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -19,6 +19,7 @@ RUN set -ex; \
 		libjpeg-dev \
 		libpng-dev \
 		libpq-dev \
+                libzip-dev \
 	; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -69,7 +70,7 @@ WORKDIR /var/www/html
 #	&& chown -R www-data:www-data sites modules themes
 
 RUN apt-get update
-RUN apt-get install mysql-client -y
+RUN apt-get install -y default-mysql-client
 
 COPY mmoda-frontend-drupal /var/www/mmoda
 
