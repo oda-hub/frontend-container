@@ -8,6 +8,8 @@ function clone_latest_component() {
 
         echo -e "\033[32mclone_latest_component\033[0m \033[33m$component => $location\033[0m"
 
+	rm -rfv $location
+
         git clone https://github.com/oda-hub/mmoda-frontend-$component $location || {
             echo "can not clone, exists?"
         }
