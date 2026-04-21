@@ -97,6 +97,6 @@ ADD dev /var/www/mmoda/dev/
 
 ADD mmoda-frontend-drupal/sites/default/files/ /frontend-default-files/
 
-RUN cd /var/www/mmoda && composer require "swiftmailer/swiftmailer:^5.0"
+RUN cd /var/www/mmoda && composer require --no-security-blocking "swiftmailer/swiftmailer:^5.0"
 
 #RUN apt-get install netcat -y
