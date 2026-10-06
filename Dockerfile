@@ -1,6 +1,12 @@
 # from https://www.drupal.org/requirements/php#drupalversions
 FROM php:7.3.33-apache
 
+# Debian bullseye is EOL: its packages moved from deb/security.debian.org to archive.debian.org
+RUN sed -i \
+	-e 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' \
+	-e 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' \
+	/etc/apt/sources.list
+
 # install the PHP extensions we need
 RUN set -ex; \
 	\
@@ -81,8 +87,11 @@ COPY httpd.conf /etc/apache2/apache2.conf
 RUN mkdir -pv /var/www/mmoda/sites/default/files && \
     chown www-data:www-data /var/www/mmoda/sites/default/files
 
+# Composer pinned; drush 7 needs symfony/yaml 2.x (EOL), whose security advisories Composer blocks by default:
+# exempt only that package
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
+    composer global config --json policy.advisories.ignore '["symfony/yaml"]' && \
     composer global require drush/drush:7.*
 
 RUN apt install ssl-cert
