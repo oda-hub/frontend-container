@@ -1,11 +1,53 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:7.3.33-apache
+FROM php:7.4.33-apache
+
+# PHP 7.4 is EOL: rebuild it from the PHP security team's source backport of
+# CVE-2026-109618/CVE-2026-109619 (https://www.php.net/archive/2026.php, 2026-10-21)
+ENV PHP_SRC_COMMIT=712e60f9edfd03f0960fc4fc3c2c375f42b90aa2
+ENV PHP_SRC_SHA256=c85c8cae6cd97c8688eb0bb2385d2341b74606153d19c3c8688183c3bc760d47
 
 # Debian bullseye is EOL: its packages moved from deb/security.debian.org to archive.debian.org
 RUN sed -i \
 	-e 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' \
 	-e 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' \
 	/etc/apt/sources.list
+
+# rebuild PHP (CLI + mod_php) from the backport source with the base image's configure options,
+# and make it the source docker-php-ext-install uses for our extensions
+RUN set -ex; \
+	\
+	savedAptMark="$(apt-mark showmanual)"; \
+	\
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		autoconf bison re2c dpkg-dev file g++ gcc libc-dev make pkg-config xz-utils \
+		apache2-dev libargon2-dev libcurl4-openssl-dev libonig-dev libreadline-dev \
+		libsodium-dev libsqlite3-dev libssl-dev libxml2-dev zlib1g-dev \
+	; \
+	\
+	configureOptions="$(php-config --configure-options)"; \
+	curl -fsSL "https://github.com/php/php-src/archive/${PHP_SRC_COMMIT}.tar.gz" -o /tmp/php-src.tar.gz; \
+	echo "${PHP_SRC_SHA256} */tmp/php-src.tar.gz" | sha256sum -c -; \
+	mkdir -p /usr/src/php-backport; \
+	tar -xzf /tmp/php-src.tar.gz -C /usr/src/php-backport --strip-components=1; \
+	\
+	cd /usr/src/php-backport; \
+	./buildconf --force; \
+	export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS"; \
+	./configure $configureOptions; \
+	make -j "$(nproc)"; \
+	make install; \
+	make distclean; \
+	\
+	cd /usr/src; \
+	rm -f php.tar.xz php.tar.xz.asc; \
+	tar -cJf php.tar.xz php-backport; \
+	rm -rf php-backport /tmp/php-src.tar.gz; \
+	\
+	apt-mark auto '.*' > /dev/null; \
+	apt-mark manual $savedAptMark; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /var/lib/apt/lists/*
 
 # install the PHP extensions we need
 RUN set -ex; \
@@ -28,7 +70,7 @@ RUN set -ex; \
                 libzip-dev \
 	; \
 	\
-	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
+	docker-php-ext-configure gd --with-jpeg; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
