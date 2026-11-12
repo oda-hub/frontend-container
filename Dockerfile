@@ -53,6 +53,7 @@ RUN set -ex; \
 RUN set -ex; \
 	\
 	if command -v a2enmod; then \
+		if [ -e /etc/apache2/mods-enabled/http2.load ]; then a2dismod http2; fi; \
 		a2enmod rewrite; \
 		a2enmod ssl; \
 		a2enmod proxy; \
